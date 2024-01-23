@@ -13,5 +13,5 @@ EXPOSE 80
 
 COPY --from=build /app/dist/noti-gest/browser /usr/share/nginx/html
 
-CMD ["/bin/sh", "-c", "envsubst < /usr/share/nginx/html/assets/environment.development.ts > /usr/share/nginx/html/assets/environment.development.ts \
+CMD ["/bin/sh", "-c", "envsubst < /usr/share/nginx/html/environments/environment.development.ts > /usr/share/nginx/html/environments/environment.development.ts \
                         && exec nginx -g 'daemon off;'"]
