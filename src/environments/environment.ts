@@ -1,3 +1,3 @@
 export const environment = {
-    apiUrl: window['env']['ApiUrl'] || 'http://localhost:5010/api/hero'
+    apiUrl: window['env']['ApiUrl'] || '${API_URL}'
 };
