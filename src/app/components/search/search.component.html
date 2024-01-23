@@ -1,0 +1,25 @@
+<div class="card" style="width: 66%; margin: auto; margin-bottom: 1%;">
+    <p-dataView #dv [value]="users">
+        <ng-template pTemplate="list" let-users>
+            <div class="grid grid-nogutter">
+                <div class="col-12" *ngFor="let item of users; let first = first">
+                    <div class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4" [ngClass]="{ 'border-top-1 surface-border': !first }">
+                        <img class="w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round" [src]="'https://img.freepik.com/vector-premium/icono-circulo-usuario-anonimo-ilustracion-vector-estilo-plano-sombra_520826-1931.jpg'" [alt]="item.createdDate" />
+                        <div class="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
+                            <div class="flex flex-column align-items-center sm:align-items-start gap-3">
+                                <div class="text-2xl font-bold text-900">{{ item.userName }}</div>
+                                <div class="flex align-items-center gap-3">
+                                    <span class="flex align-items-center gap-2">
+                                        <i class="pi pi-envelope"></i>
+                                        <span class="font-semibold">{{ item.email }}</span>
+                                    </span>
+                                </div>
+                                <div class="text-sm font-light text-gray-500">{{ item.createdDate | date: 'medium' }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </p-dataView>
+</div>

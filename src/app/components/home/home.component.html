@@ -1,0 +1,121 @@
+<div
+  class="fadeindown animation-duration-1000"
+>
+@if(messages.length > 0){
+  <p-messages [(value)]="messages" [enableService]="false" [closable]="true" severity="info"></p-messages>
+}
+@if(search){
+  <p-inputGroup>
+    <button type="button" pButton label="Search"></button>
+    <input type="text" pInputText placeholder="Noticias" />
+  </p-inputGroup>
+}
+  <div class="flex flex-column align-items-center cent">
+    <p-scrollPanel
+      [style]="{ width: '100%', height: '1050px' }"
+      styleClass="custombar1"
+    >
+      @if(!cargando()){ @for(noticia of noticias(); track noticia.id){
+      <p-card
+        header="{{ noticia.titulo }}"
+        subheader="{{ noticia.titulo }}"
+        [style]="{ 'margin-bottom': '6%', 'max-width': '500px' }"
+      >
+        <ng-template pTemplate="header">
+          <div class="image-container with-border">
+            <p-image
+              src="{{ noticia.enlaceImagen }}"
+              width="100%"
+              height="100%"
+              object-fit="cover"
+            ></p-image>
+          </div>
+          <!-- <img alt="Card" src="{{noticia.enlaceImagen}}" /> -->
+        </ng-template>
+        <p>
+          {{ noticia.contenido }}
+        </p>
+        <ng-template pTemplate="footer">
+          @if(usuario == noticia.autor.userName.trim()){
+            <p-button
+            [rounded]="true"
+            (click)="abrirDialogo(noticia)"
+            [outlined]="true"
+            everity="info"
+            ><i class="pi pi-spin pi-pencil"></i
+          ></p-button>
+          <p-button
+            [rounded]="true"
+            severity="danger"
+            [style]="{ 'margin-left': '.5em' }"
+            [outlined]="true"
+            (click)="eliminarNoticia(noticia.id)"
+            ><i class="pi pi-spin pi-trash"></i
+          ></p-button>
+          }
+        </ng-template>
+      </p-card>
+      } 
+      @empty {
+      <p-card
+        header="No pudimos encontrar ninguna noticia relacionada"
+        class="custom-card"
+      >
+        <p>"Por favor vuelva a intentarlo"</p>
+      </p-card>
+      } 
+    } @else {
+      <p-progressSpinner></p-progressSpinner>
+    }
+    </p-scrollPanel>
+  </div>
+  @if(noticiaForm){
+    <form  [formGroup]="noticiaForm" (ngSubmit)="actualizarNoticia()" class="card flex justify-content-center">
+      <p-dialog
+        header="Actualizar Noticia"
+        [(visible)]="visible"
+        [style]="{ width: '50vw', height: '500px' }"
+      >
+        <div class="card flex flex-column align-items-center">
+          <div class="input-container">
+            <label for="url">URL:</label>
+            <input type="text" id="url" formControlName="url" placeholder="URL" pInputText />
+          </div>
+          <div class="input-container">
+            <label for="titulo">Título:</label>
+            <input
+              formControlName="titulo"
+              type="text"
+              id="titulo"
+              pInputText
+              required
+              placeholder="Un titulo entre 10 y 100 caracteres"
+            />
+          </div>
+          <div class="input-container">
+            <label for="contenido">Contenido:</label>
+            <textarea
+              placeholder="Un titulo entre 50 y 400 caracteres"
+              formControlName="contenido"
+              id="contenido"
+              rows="5"
+              cols="30"
+              pInputTextarea
+              style="height: 200px; width: 600px"
+              required
+            ></textarea>
+          </div>
+          <div class="input-container">
+            <p-button
+              label="Actualizar"
+              [outlined]="true"
+              severity="Actualizar"
+              type="submit"
+              [disabled]="!noticiaForm.valid"
+            ></p-button>
+          </div>
+        </div>
+      </p-dialog>
+    </form>
+  }
+</div>

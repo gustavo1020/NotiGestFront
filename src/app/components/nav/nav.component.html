@@ -1,0 +1,99 @@
+
+<div style="height: 100%; width: 100%;">
+    @if(!!usuarioAutenticado()){
+        <div class="container" style="margin-bottom: 1%;">
+            <footer class="border-bottom-invisible">
+                <p-toolbar styleClass="bg-gray-900 shadow-20 pad" [style]="{'background-image': 'linear-gradient(to right, var(--bluegray-500), var(--bluegray-800))' }"></p-toolbar>
+            </footer>
+        </div>
+        @if(messages.length > 0){
+          <p-messages [(value)]="messages" [enableService]="false" [closable]="true" severity="info"></p-messages>
+        }
+    }
+    @if(filter.visible){
+      <div class="card flex justify-content-center fadeinleft animation-duration-1000" style="width: 66%; margin: auto; margin-bottom: 1%;">
+        <div class="w-full md:w-40rem">
+          <p-inputGroup >
+            <button type="button" (click)="filtrarNoticias()" pButton label="Search" class="mr-2"></button>
+            <input type="text" pInputText [(ngModel)]="filter.text" placeholder="Keyword" class="mr-2" />
+            <p-checkbox name="filter" [value]="true" label="Fecha" (onChange)="filter.date = !filter.date" class="mr-2"></p-checkbox>
+            <p-checkbox name="filter" [value]="true" label="Destacado" (onChange)="filter.destacada = !filter.destacada"></p-checkbox>
+          </p-inputGroup>
+        </div>
+      </div>
+    }
+
+    <div>
+        <router-outlet></router-outlet>
+    </div>
+    @if(!!usuarioAutenticado()){
+        <div class="navbarInf" style="position: fixed; bottom: 0;  width: 100%; margin-top: 5%;" >
+            <p-toolbar styleClass="bg-gray-900 shadow-2" [style]="{ 'border-radius': '3rem', 'background-image': 'linear-gradient(to right, var(--bluegray-500), var(--bluegray-800))' }">
+                <ng-template pTemplate="start">
+                  <button class="p-link inline-flex justify-content-center align-items-center text-white h-2rem w-3rem border-circle hover:bg-white-alpha-10 transition-all transition-duration-200" (click)="out()" [routerLink]="['/home']"><i class="pi pi-sign-out text-2xl"></i></button>
+                </ng-template>
+                <ng-template pTemplate="center">
+                    <div class="flex flex-wrap align-items-center gap-2">
+                        <button class="p-link inline-flex justify-content-center align-items-center text-white h-2rem w-3rem border-circle hover:bg-white-alpha-10 transition-all transition-duration-200" [routerLink]="['/home']"><i class="pi pi-home text-2xl"></i></button>
+                        <button class="p-link inline-flex justify-content-center align-items-center text-white h-2rem w-4rem border-circle hover:bg-white-alpha-10 transition-all transition-duration-200" (click)="openCreateNoticia()"><i class="pi pi-plus text-1xl"></i><span class="ml-1">New</span></button>
+                        <button class="p-link inline-flex justify-content-center align-items-center text-white h-2rem w-3rem border-circle hover:bg-white-alpha-10 transition-all transition-duration-200" (click)="mostrarFiltro()"><i class="pi pi-search text-2xl"></i></button>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="end">
+                    <div class="flex align-items-center gap-2">
+                        <p-avatar image="https://e7.pngegg.com/pngimages/409/400/png-clipart-logo-product-design-brand-font-gv-angle-text.png" shape="circle" />
+                        <span class="font-bold text-bluegray-50">{{user}}</span>
+                    </div>
+                </ng-template>
+            </p-toolbar>
+        </div>
+    }
+    @if(noticiaForm){
+      <form  [formGroup]="noticiaForm" (ngSubmit)="crearNoticia()" class="card flex justify-content-center">
+        <p-dialog
+          header="Nueva Noticia"
+          [(visible)]="visible"
+          [style]="{ width: '50vw', height: '500px' }"
+        >
+          <div class="card flex flex-column align-items-center">
+            <div class="input-container">
+              <label for="url">URL:</label>
+              <input type="text" id="url" formControlName="url" placeholder="Ingrese una URL" pInputText  />
+            </div>
+            <div class="input-container">
+              <label for="titulo">Título:</label>
+              <input
+                type="text"
+                id="titulo"
+                pInputText
+                required
+                formControlName="titulo"
+                placeholder="Un titulo entre 10 y 100 caracteres"
+              />
+            </div>
+            <div class="input-container">
+              <label for="contenido">Contenido:</label>
+              <textarea
+                id="contenido"
+                rows="5"
+                cols="30"
+                pInputTextarea
+                style="height: 200px; width: 600px"
+                formControlName="contenido"
+                placeholder="Un titulo entre 50 y 400 caracteres"
+                required
+              ></textarea>
+            </div>
+            <div class="input-container">
+              <p-button
+                label="Crear"
+                [outlined]="true"
+                type="submit"
+                [disabled]="!noticiaForm.valid"
+              ></p-button>
+            </div>
+          </div>
+        </p-dialog>
+      </form>
+    }
+</div>
