@@ -11,7 +11,6 @@ import { HttpServiceService } from '../services/http-service.service'
   providedIn: 'root'
 })
 export class AuthService {
-  private URL = "https://localhost:7086/api/v1";
 
   USER : UserAuth;
 
