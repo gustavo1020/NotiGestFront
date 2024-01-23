@@ -1,21 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClientModule } from '@angular/common/http';
-import { ConfigService } from './config/config.service';
+import { environment } from '../../environments/environment.development';
+
 @Injectable({
   providedIn: 'root'
 })
 export class HttpServiceService {
 
-  private URL? = "https://localhost:7086/api/v1";
+  private URL? = environment.apiUrl;
 
-  constructor(private http: HttpClient, private configService :ConfigService) {
-    this.updateURL()
-  }
-  updateURL(){
-    this.URL = this.configService?.config?.apiUrl;
-  }
+  constructor(private http: HttpClient) {}
   post(path : string ,body : any, headers? : {}) : Observable<any>{
     return this.http.post( this.URL + path , body, headers );
   }
